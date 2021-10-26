@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import './utils/rem'
+import 'lib-flexible';
 // import {Provider} from 'react-redux'
 import { BrowserRouter } from 'react-router-dom';
 // import store from './redux/store'

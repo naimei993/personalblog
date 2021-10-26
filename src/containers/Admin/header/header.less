@@ -1,0 +1,90 @@
+
+.fun(@fullwidth,@width){
+.headerall{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content:space-around;
+        align-items:center;
+            .headerleft{
+                display: flex;
+                background-color: rgb(0, 21, 41);
+                height: 100%;
+                width: 100%;
+                flex-direction:row;
+                align-items:center;
+                
+            img{
+                height:80%;
+                margin-right:20px;
+            }
+            span{
+                color: white;
+                font-size: 40px;
+                margin-left: 20px;
+            }
+    }
+    .headerright{
+        height: @fullwidth;
+        width: @width;
+        justify-content:flex-end;
+        align-items:center;
+        font-size: 16px;
+        
+        .headermenu{
+            height: 100%;
+            width: 100%;
+            align-items: center;
+            
+        }
+        .ant-menu{
+            line-height: 80px;
+            justify-content:center
+        }
+        .ant-menu-submenu{
+            
+            .anticon-ellipsis{
+                font-size: 50px !important;
+            }
+        }
+        .ant-menu-item{
+            font-size: 25px;
+            margin: 20px 10px;
+            padding-top: 10px;
+            
+            a{
+                margin-left: 15px;
+            }
+            
+        }
+        .ant-menu-item-selected {
+            background-color: rgb(0, 21, 41) !important;
+            color: white !important;
+          }
+        .ant-menu-item a:hover {
+            color:rgba(255, 106, 0) ;
+            border-bottom: 1px solid rgba(255, 106, 0) ;
+            transition-property: color;
+            transition-duration: 0.5s;
+            transition-timing-function: ease-in-out;
+            transition-delay: 0s;
+          }
+        .ant-menu-item a:active:before {
+            color: white !important;
+          }
+        .ant-menu-item a:active:after {
+            color: white !important;
+          }
+        .ant-menu-item-active {
+            background-color: rgb(0, 21, 41) !important;
+            color: white !important;
+          }
+    }
+}
+}
+
+.fun(100%,100%);
+
+@media (max-width:768px){
+    .fun(100%,30%);
+}

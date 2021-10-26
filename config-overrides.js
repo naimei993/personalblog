@@ -1,5 +1,12 @@
 //配置具体修改规则
- const { override, fixBabelImports, addLessLoader,addDecoratorsLegacy } = require('customize-cra');
+ const {
+  override,
+  fixBabelImports,
+  addLessLoader,
+  addDecoratorsLegacy,
+} = require("customize-cra");
+const path = require("path");
+const rewirePostcss = require("react-app-rewire-postcss");
 
 
  module.exports = override(
@@ -12,7 +19,28 @@
        javascriptEnabled:true,
        modifyVars:{'@primary-color':'#1DA57A'}
      }),
-     addDecoratorsLegacy({})
+     addDecoratorsLegacy({}),
+     (config, env) => {
+      // 重写postcss
+      rewirePostcss(config, {
+        plugins: () => [
+          require("postcss-flexbugs-fixes"),
+          require("postcss-preset-env")({
+            autoprefixer: {
+              flexbox: "no-2009",
+            },
+            stage: 3,
+          }),
+          require("postcss-px2rem-exclude")({
+            // 设计稿宽度/10
+            remUnit: 1080 / 10,
+            exclude: /node-modules/i,
+          }),
+        ],
+      });
+  
+      return config;
+    }
    );
 
  
