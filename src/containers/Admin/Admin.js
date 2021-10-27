@@ -12,7 +12,7 @@ const Admin = ()=>{//箭头函数
       return(
         <Layout className='admin'>
         <Header className='header'><HeaderTop/></Header>
-        <Content className='content'>Content
+        <Content className='content'>
         <Switch>
                 <Route path="/actualcombat" component={()=>(<ActualCombat/>)} />
                 <Route path="/interactive" component={()=>(<Interactive/>)}/>
@@ -21,6 +21,7 @@ const Admin = ()=>{//箭头函数
                 <Route path="/about" component={()=>(<About/>)}/>
                 <Redirect to="/admin"/>
               </Switch>
+              
         </Content>
         <Footer>AAA</Footer>
       </Layout>

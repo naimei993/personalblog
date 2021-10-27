@@ -14,8 +14,6 @@ const Header = ()=>{//箭头函数
       };
       const menus = ['admin','actualcombat','life','record','interactive','about','more','bar','line','pie']
     const hasAuth = (item)=>{//箭头函数
-        
-        console.log(menus);
         const menusList = menus.toString().split(',')
         if(!item.children){
             return menusList.find((item2)=>{return item2 === item.key})
