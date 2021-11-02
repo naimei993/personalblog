@@ -131,7 +131,7 @@ module.exports = function (webpackEnv) {
               stage: 3,
             }),
             px2rem({
-              remUnit:75,exclude: /node_modules/i
+              remUnit:121,exclude: /node_modules/i
             }),
             // Adds PostCSS Normalize as the reset css with default options,
             // so that it honors browserslist config in package.json
