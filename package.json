@@ -49,7 +49,7 @@
     "jest-watch-typeahead": "0.6.1",
     "jsonp": "^0.2.1",
     "less": "^4.1.2",
-    "less-loader": "^10.2.0",
+    "less-loader": "5.0.0",
     "lib-flexible": "^0.3.2",
     "mini-css-extract-plugin": "0.11.3",
     "nprogress": "^0.2.0",

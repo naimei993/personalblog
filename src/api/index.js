@@ -7,8 +7,9 @@ import {BASE_URL,CITY} from '../config/index'
 export const reqLogin = (username, password) => ajax.post(`${BASE_URL}/login`, {username, password})
 
 //获取商品列表
-export const reqArticleList = () => ajax.get(`${BASE_URL}/rticleList`)
+export const reqArticleList = () => ajax.get(`${BASE_URL}/articleList`)
     
+export const reqActualCombat = () => ajax.get(`${BASE_URL}/actualCombat`)
 //获取天气信息
 export const reqWheather = ()=>{
     return new Promise((resolve,reject)=>{
