@@ -86,7 +86,9 @@ const Life = ()=>{//箭头函数
       </div>
           </div >
           </Col>
+          <Col className='comm-right' xs={0} sm={0} md={7} lg={5} xl={4} >
           <Rightdetail />
+          </Col>
         </Row>
       
       )

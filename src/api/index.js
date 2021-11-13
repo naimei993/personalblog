@@ -10,6 +10,23 @@ export const reqLogin = (username, password) => ajax.post(`${BASE_URL}/login`, {
 export const reqArticleList = () => ajax.get(`${BASE_URL}/articleList`)
     
 export const reqActualCombat = () => ajax.get(`${BASE_URL}/actualCombat`)
+
+export const reqGenerateShortUrl = (url) => ajax.post(`${BASE_URL}/s`,{url})
+
+// export const reqWheather = ()=>{
+//   return new Promise((resolve,reject)=>{
+//       jsonp(`http://wthrcdn.etouch.cn/weather_mini?city=${CITY}`,(err,data)=>{
+//       if(err){
+//         message.error('请求天气接口失败，请联系管理员')
+//         return new Promise(()=>{})
+//       }else{
+        
+//         resolve(data)
+//       }
+//     })
+//   })   
+// }
+export const reqCityName = (ip) => ajax.get(`http://whois.pconline.com.cn/ipJson.jsp?callback=testJson&ip=${ip}`)
 //获取天气信息
 export const reqWheather = ()=>{
     return new Promise((resolve,reject)=>{

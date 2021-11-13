@@ -1,4 +1,4 @@
-import { Col,Avatar,Breadcrumb,Divider,Tooltip} from 'antd';
+import { Avatar,Breadcrumb,Divider,Tooltip} from 'antd';
 import { EnvironmentOutlined,MailOutlined,GithubOutlined,QqOutlined,WechatOutlined,LinkOutlined} from '@ant-design/icons';
 import img5 from './img5.jpg'
 
@@ -9,7 +9,7 @@ const Rightdetail = ()=>{//箭头函数
         )
       }
     return(
-        <Col className='comm-right' xs={0} sm={0} md={7} lg={5} xl={4} >
+        
         <div className="contentRight">
           <div className="UserImg-box">
         <Avatar
@@ -48,7 +48,7 @@ const Rightdetail = ()=>{//箭头函数
         <Tooltip  title="GitHub">
         <a href="https://github.com/naimei993" target="_blank" rel="noopener noreferrer">
         <Avatar
-          size={36}
+          size={30}
           icon={<GithubOutlined />}
         />
         </a>
@@ -56,7 +56,7 @@ const Rightdetail = ()=>{//箭头函数
         <Tooltip  title="QQ">
         <a href="https://qm.qq.com/cgi-bin/qm/qr?k=Oumjk86LEy6oc2YlyyLRosL9PcsRE1Vg&noverify=0" target="_blank" rel="noopener noreferrer">
         <Avatar
-          size={36}
+          size={30}
           icon={<QqOutlined />}
         />
         </a>
@@ -64,7 +64,7 @@ const Rightdetail = ()=>{//箭头函数
         <Tooltip  title="WeChat">
         <a href="https://u.wechat.com/MPKDw0GfmBWXy28rtJ3l0qA" target="_blank" rel="noopener noreferrer">
         <Avatar
-          size={36}
+          size={30}
           icon={<WechatOutlined />}
         />
         </a>
@@ -72,15 +72,14 @@ const Rightdetail = ()=>{//箭头函数
         <Tooltip  title="CSDN">
         <a href="https://blog.csdn.net/weixin_45846840?spm=1000.2115.3001.5343" target="_blank" rel="noopener noreferrer">
         <Avatar
-          size={36}
+          size={30}
           icon={<LinkOutlined />}
         />
         </a>
         </Tooltip>
         </div>
         </div>
- 
-      </Col>
+
     )
 }
 export default Rightdetail
