@@ -12,13 +12,13 @@ const Main = ()=>{
      const getList = async ()=>{
         let result = await reqArticleList()
         const {status,msg,data} = result
-        console.log( 
-          `%c `,
-          `padding:100px; 
-          background-image: url('http://p4.music.126.net/GlZxXoxqkKtXFOnQFUtzZg==/109951165461315792.jpg');
-          background-size: cover; 
-          background-position: center center;`
-          );
+        // console.log( 
+        //   `%c `,
+        //   `padding:100px; 
+        //   background-image: url('http://p4.music.126.net/GlZxXoxqkKtXFOnQFUtzZg==/109951165461315792.jpg');
+        //   background-size: cover; 
+        //   background-position: center center;`
+        //   );//输出图片
         if(status === 0){
           setdataSource(data)
           console.log(data,"Main Main");

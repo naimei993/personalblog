@@ -13,6 +13,7 @@ export const reqActualCombat = () => ajax.get(`${BASE_URL}/actualCombat`)
 
 export const reqGenerateShortUrl = (url) => ajax.post(`${BASE_URL}/s`,{url})
 
+export const reqGetComment = ()=>ajax.get(`${BASE_URL}/getcomment`)
 // export const reqWheather = ()=>{
 //   return new Promise((resolve,reject)=>{
 //       jsonp(`http://wthrcdn.etouch.cn/weather_mini?city=${CITY}`,(err,data)=>{

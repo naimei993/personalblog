@@ -36,6 +36,31 @@ const commentList = [
         dislike:"0",
         device:"Windows 10",
         equipment:"Chrome(86.0.4240.111)",
+    }, {   
+        id:"2",
+        name:"xz",
+        img:"image-1633857432725.jpg",
+        time:"2021-02-17 00:27:13",
+        location:"浙江省杭州市",
+        content:" 路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索路漫漫其修远兮 吾将上下而求索",
+        like:"0",
+        dislike:"0",
+        device:"Windows 10",
+        equipment:"Chrome(86.0.4240.111)",
+       
+    }, {   
+        id:"21",
+        rid:"2",
+        name:"xz",
+        img:"image-1633857432725.jpg",
+        time:"2021-02-17 00:27:13",
+        location:"浙江省杭州市",
+        content:" 路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索。路漫漫其修远兮 吾将上下而求索路漫漫其修远兮 吾将上下而求索",
+        like:"0",
+        dislike:"0",
+        device:"Windows 10",
+        equipment:"Chrome(86.0.4240.111)",
+       
     },
 ]
 export default commentList
