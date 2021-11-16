@@ -2,13 +2,19 @@ import {Row,Col,Tooltip,Comment, Avatar} from 'antd'
 import React from 'react'
 import ReactAplayer from 'react-aplayer';
 import {LikeOutlined,DislikeOutlined} from '@ant-design/icons'
-import {reqCityName} from '../../api/index'
+import {BASE_URL} from '../../config/index'
+import Commentdata from '../../config/Comment'
 // import Rightdetail from '../Admin/Rightdetail/Rightdetail'
-
+import './Interactive.min.css'
 
 const Interactive = ()=>{//箭头函数
+    
+  
     const [action,setaction] = React.useState(null)
-    const [ComInformation,setComInformation] = React.useState({likes:0,dislike:0})
+    const [ComInformation,setComInformation] = React.useState({likes:0,dislike:0,device:'Windows 10',info:''})
+    React.useEffect(()=>{
+        
+    },[])
     const props = {
         theme: '#F57F17',
         lrcType: 3,
@@ -18,78 +24,110 @@ const Interactive = ()=>{//箭头函数
             {
                 name: '微微',
                 artist: '傅如乔',
-                url: 'https://www.jsfan.net/upload/微微.mp3',
-                cover: 'https://www.jsfan.net/upload/微微musicimg.jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=1433434738',
+                url: `${BASE_URL}/upload/music/微微.mp3`,
+                cover: `${BASE_URL}/upload/music/微微.jpg`,
+                lrc: `${BASE_URL}/upload/music/微微.lrc`,
                 theme: '#ebd0c2'
             },
             {
-                name: '无人之岛',
-                artist: '任然',
-                url: 'https://www.jsfan.net/upload/无人之岛.mp3',
-                cover: 'https://www.jsfan.net/upload/无人之岛img.jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=493735012',
+                name: '阿依莫', 
+                artist: '阿吉太组合',
+                url: `${BASE_URL}/upload/music/阿依莫.mp3`,
+                cover: `${BASE_URL}/upload/music/阿依莫.jpg`,
+                lrc: `${BASE_URL}/upload/music/阿依莫.lrc`,
                 theme: '#ebd0c2'
             },
             {
                 name: '你的答案',
                 artist: '阿冗',
-                url: 'https://www.jsfan.net/upload/你的答案.mp3',
-                cover: 'https://www.jsfan.net/upload/你的答案阿.jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=1400256289',
+                url: `${BASE_URL}/upload/music/你的答案.mp3`,
+                cover: `${BASE_URL}/upload/music/你的答案阿.jpg`,
+                lrc: `${BASE_URL}/upload/music/你的答案.lrc`,
                 theme: '#ebd0c2'
             },
             {
-                name: '花魁', 
-                artist: '徐良',
-                url: 'https://www.jsfan.net/upload/花魁.mp3',
-                cover: 'https://www.jsfan.net/upload/花魁徐良.jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=553753244',
+                name: '不要怕&啊杰咯',
+                artist: '莫西子诗',
+                url: `${BASE_URL}/upload/music/不要怕&啊杰咯.mp3`,
+                cover: `${BASE_URL}/upload/music/不要怕&啊杰咯.jpg`,
+                lrc: `${BASE_URL}/upload/music/不要怕&啊杰咯.lrc`,
                 theme: '#ebd0c2'
             },
             {
+                name: '无人之岛',
+                artist: '任然',
+                url: `${BASE_URL}/upload/music/无人之岛.mp3`,
+                cover: `${BASE_URL}/upload/music/无人之岛.jpg`,
+                lrc: `${BASE_URL}/upload/music/无人之岛.lrc`,
+                theme: '#ebd0c2'
+            },{
                 name: '权力的游戏',
                 artist: 'Ramin Djawadi', //作者名
-                url: 'https://www.jsfan.net/upload/权力的游戏.mp3',
-                cover: 'https://p1.music.126.net/ME34HLKlJtYGruIxomhIOQ==/7987951976023943.jpg',
-                  lrc: 'https://moeplayer.b0.upaiyun.com/aplayer/hikarunara.lrc',
-                theme: '#ebd0c2'
-            },
-            {
-                name: '刚好遇见你',
-                artist: '李玉刚',
-                url: 'https://www.jsfan.net/upload/刚好遇见你.mp3',
-                cover: 'https://www.jsfan.net/upload/刚好遇见你.jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=459159104',
-                theme: '#ebd0c2'
-            },
-            {
-                name: '下山',
-                artist: '要不要买菜',
-                url: 'https://www.jsfan.net/upload/下山.mp3',
-                cover: 'https://www.jsfan.net/upload/下山(要不要买菜).jpg',
-                lrc: 'http://www.jsfan.net:3001/lyric?id=1404885266',
+                url: `${BASE_URL}/upload/music/权力的游戏.mp3`,
+                cover: `${BASE_URL}/upload/music/权力的游戏.jpg`,
+                  lrc: `${BASE_URL}/upload/music/权力的游戏.lrc`,
                 theme: '#ebd0c2'
             },
         ],
     };
+    const pinglundata = Commentdata.filter((item) => { return !item.rid })
+    const pinglunindata = (Commentdata.filter((item) => { return item.rid })).reverse()
      // event binding example
     const onPlay = () => {
-        // console.log('on play');
+        console.log('on play');
     };
    const onPause = () => {
-        // console.log('on pause');
+        console.log('on pause');
     };
     // example of access aplayer instance
     let aap;
    const onInit = ap => {
         aap = ap;
     };
+   const getimgurl=(data)=>{
+        //设备及系统
+        let re1 = /Windows/g  
+        let re4 = /Mac/g  
+        let re5 = /国产/g  
+        //浏览器
+        let re2 = /Chrome/g  
+        let re3 = /Safari/g  
+        let re6 = /Firefox/g  
+        let re7 = /IE/g  
+        let re8 = /Opera/g  
+        if(re1.test(data)){
+            return `${BASE_URL}/upload/win-6.png`
+        }
+        if(re2.test(data)){
+            return `${BASE_URL}/upload/chrome.png`
+        }
+        if(re4.test(data)){
+            return `${BASE_URL}/upload/iphone.png`
+        }
+        if(re5.test(data)){
+            return `${BASE_URL}/upload/android.png`
+        }
+        if(re3.test(data)){
+            return `${BASE_URL}/upload/safari.png`
+        }
+        if(re6.test(data)){
+            return `${BASE_URL}/upload/firefox.png`
+        }
+        if(re7.test(data)){
+            return `${BASE_URL}/upload/iepng.png`
+        }
+        if(re8.test(data)){
+            return `${BASE_URL}/upload/opera-2.png`
+        }
+        return 
+    }
    const like = () => {
        console.log("LIKE");
-       console.log(window.city);
        console.log(window.device);
-       getCityName(window.city)
+        console.log(window.city,"CITY",window.ip,"IP"); 
+        console.log(window.device);
+        console.log(getimgurl(window.device));
+       
         // if (this.state.condition === 0) {
         //     let a = parseInt(this.state.likes) + 1
         //     this.setState({
@@ -147,16 +185,15 @@ const Interactive = ()=>{//箭头函数
         }
     
     }
-    const getCityName = async ()=>{
-        let result = await reqCityName()
-        console.log(result);
-    }
     let BrowserInfo = getBrowserInfo()[0].split("/")
+    const browserType = BrowserInfo[0].charAt(0).toUpperCase() + BrowserInfo[0].slice(1)
+    const version = BrowserInfo[1]
     let steam = navigator.appVersion
+    console.log(BrowserInfo,steam );
     const actions = [
         <span key="comment-basic-like">
             <Tooltip title="赞同">
-            <LikeOutlined  style={{fontSize:"14px"}} onClick={like} />
+            <LikeOutlined  style={{fontSize:"16px"}} onClick={like} />
                 {/* <Icon
                     type="like"
                     theme={action === 'liked' ? 'filled' : 'outlined'} 
@@ -167,7 +204,7 @@ const Interactive = ()=>{//箭头函数
         </span>,
         <span key=' key="comment-basic-dislike"'>
             <Tooltip title="无趣" onClick={dislike}>
-            <DislikeOutlined  style={{fontSize:"14px"}}/>
+            <DislikeOutlined  style={{fontSize:"16px"}}/>
                 {/* <Icon
                     type="dislike"
                     theme={action === 'disliked' ? 'filled' : 'outlined'}
@@ -176,39 +213,115 @@ const Interactive = ()=>{//箭头函数
             </Tooltip>
             <span style={{ paddingLeft: 8, cursor: 'auto' }}>{ComInformation.dislike}</span>
         </span>,
-    //     <span key="comment-basic-address">
-    //     <img src={this.getimgurl(this.state.data.device)} alt="" style={{height:'.75rem',position:'relative',top:'.3rem',paddingRight:'.1rem'}}/>
-    //     {this.state.data.device}
-    // </span>,
-    // <span key="comment-basic-address">
-    //     <img src={this.getimgurl(this.state.data.info)}  alt="" style={{height:'.9rem',position:'relative',top:'.2rem',paddingRight:'.1rem'}}/>
-    //     {this.state.data.info=='null(undefined)'?null:this.state.data.info}</span>,
-    // // this.props.nopinglun ? null :
-    //     <span key="comment-basic-reply-to" onClick={this.showModal} style={{color:'#1890ff'}}>回复</span>,
+        <span key="comment-basic-address">
+        <img src={getimgurl(ComInformation.device)} alt="" style={{height:'12px',position:'relative',top:"0",paddingRight:'2px',marginLeft:'5px'}}/>
+        {ComInformation.device}
+    </span>,
+    <span className="AA" key="comment-basic-address" style={{marginRight:"15px"}}>
+        <img src={getimgurl(browserType)}  alt="" style={{height:'16px',position:'relative',top:"0",paddingRight:'5px',marginLeft:'5px'}}/>
+       {browserType}({version})</span>,
+    // this.props.nopinglun ? null :
+        <span key="comment-basic-reply-to" onClick={console.log("AAA")} style={{color:'#1890ff'}}>回复</span>,
     ];
     return(
         <Row className='comm-main' type='flex' justify='center'>
         <Col className='comma-left' xs={24} sm={24} md={16} lg={18} xl={14} >
-        <div>
-        <span>浏览器：{BrowserInfo[0]}版本：{BrowserInfo[1]}{steam}</span>
+       
         <ReactAplayer
           {...props}
           onInit={onInit}
           onPlay={onPlay}
           onPause={onPause}
         />
-      </div>
-      <Comment
-    actions={actions}
-    author={<a href="/#">Han Solo</a>}
-    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-    content={
-      <p>
-        We supply a series of design principles, practical patterns and high quality design
-        resources (Sketch and Axure).
-      </p>
+         {
+          
+         pinglundata.length ? pinglundata.map((item) => {
+            console.log(pinglundata);
+            console.log(pinglunindata);
+                    return(
+                        <Comment
+                key={item.id}
+                actions={actions}
+                author={<a href="/#">{item.name}</a>}
+                datetime={<div><span style={{marginRight:"10px"}}>{item.time}</span><span>{window.city}</span></div>}
+                avatar={<Avatar style={{height:"32px",width:"32px"}} src={`${BASE_URL}/upload/${item.img}`} alt={`${item.name}`} />}
+                content={
+                  <p style={{marginTop:"10px",marginBottom:"15px"}}>
+                  {item.content}
+                  </p>
+                }
+              >   
+              {
+              pinglunindata.length ? pinglunindata.map((itemin) => {
+                  return(
+                    item.id == itemin.rid ? <Comment
+                    key={itemin.id}
+                    actions={actions}
+                    author={<a href="/#">{itemin.name}</a>}
+                    datetime={<div><span style={{marginRight:"10px"}}>{itemin.time}</span><span>{window.city}</span></div>}
+                    avatar={<Avatar style={{height:"32px",width:"32px"}} src={`${BASE_URL}/upload/${itemin.img}`} alt={`${itemin.name}`} />}
+                    content={
+                      <p style={{marginTop:"10px",marginBottom:"15px"}}>
+                      {itemin.content}
+                      </p>
+                    }
+                >  
+                </Comment> 
+                : null
+                  )
+                
+
+              }):null}
+              </Comment>
+                )
+        }) :null
     }
-  />
+        {/* {      
+
+        
+            Commentdata.map((item)=>{
+                console.log(pinglundata);
+                console.log(pinglunindata);
+                console.log(item);
+                return(
+                <Comment
+                key={item.id}
+                actions={actions}
+                author={<a href="/#">{item.name}</a>}
+                datetime={<div><span style={{marginRight:"10px"}}>{item.time}</span><span>{window.city}</span></div>}
+                avatar={<Avatar style={{height:"32px",width:"32px"}} src={`${BASE_URL}/upload/${item.img}`} alt={`${item.name}`} />}
+                content={
+                  <p style={{marginTop:"10px",marginBottom:"15px"}}>
+                  {item.content}
+                  </p>
+                }
+              >   
+              {
+                  item.children ? item.children.map((item1)=>{
+                      return(
+                    <Comment
+                        key={item1.id}
+                        actions={actions}
+                        author={<a href="/#">{item1.name}</a>}
+                        datetime={<div><span style={{marginRight:"10px"}}>{item1.time}</span><span>{window.city}</span></div>}
+                        avatar={<Avatar style={{height:"32px",width:"32px"}} src={`${BASE_URL}/upload/${item1.img}`} alt={`${item1.name}`} />}
+                        content={
+                          <p style={{marginTop:"10px",marginBottom:"15px"}}>
+                          {item1.content}
+                          </p>
+                        }
+                    >   
+                    </Comment>
+                      )
+                  }) : null
+              }
+              
+              </Comment>
+                )
+                
+            })
+        } */}
+     
                     
 
         </Col>

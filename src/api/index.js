@@ -26,7 +26,6 @@ export const reqGenerateShortUrl = (url) => ajax.post(`${BASE_URL}/s`,{url})
 //     })
 //   })   
 // }
-export const reqCityName = (ip) => ajax.get(`http://whois.pconline.com.cn/ipJson.jsp?callback=testJson&ip=${ip}`)
 //获取天气信息
 export const reqWheather = ()=>{
     return new Promise((resolve,reject)=>{
