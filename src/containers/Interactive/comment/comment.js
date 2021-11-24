@@ -1,35 +1,42 @@
 import React from "react";
-import {Tooltip,Comment, Avatar,Modal,Input,Button} from 'antd'
+import {Tooltip,Comment, Avatar,Modal,Input,Button,message} from 'antd'
 import {DislikeTwoTone,LikeTwoTone,LikeOutlined,DislikeOutlined} from '@ant-design/icons'
+import { v4 as uuidv4 } from 'uuid';
+import {reqSaveComment,reqAddLikeOrDislike,reqReduceLikeOrDislike} from '../../../api/index'
 import {BASE_URL} from '../../..//config/index'
 const { TextArea } = Input;
 const CommentUI = (props)=>{
-    const {data,like,dislike,device,equipment,twocomment} = props;
-    const {id,rid,content,createdtime,img,location,name} = data
+    const {data,twocomment} = props;
+    const {id,rid,content,createdtime,location,name,like,dislike,device,equipment,email} = data
     const [visible,setvisible] = React.useState(false)
     const [commentinfo,setcommentinfo] = React.useState({id:"",rid:"",name:"",email:"",content:""})
     const [likemsg,setlikemsg] = React.useState({isDislike:false,isLike:false,like,dislike})
-   
+   //like动作调用
     const likes =()=>{
         if(likemsg.isDislike){
             dislikes()
         }else{
             if(likemsg.isLike){
+                ReducelikeOrdislike({id,type:"like"})
                 setlikemsg({...likemsg,isLike:false,like:parseInt(likemsg.like)-1+""})
             }else{
+                AddlikeOrdislike({id,type:"like"})
                 setlikemsg({...likemsg,isLike:true,like:parseInt(likemsg.like)+1+""})
             }
         }
         
         console.log("like");
     }
+    //dislike动作调用
     const dislikes = ()=>{
         if(likemsg.isLike){
             likes()
         }else{
             if(likemsg.isDislike){
+                ReducelikeOrdislike({id,type:"dislike"})
                 setlikemsg({...likemsg,isDislike:false,dislike:parseInt(likemsg.dislike)-1+""})
             }else{
+                AddlikeOrdislike({id,type:"dislike"})
                 setlikemsg({...likemsg,isDislike:true,dislike:parseInt(likemsg.dislike)+1+""})
             }
         }
@@ -37,6 +44,29 @@ const CommentUI = (props)=>{
         
         console.log("dislike");
     } 
+    //增加like或者dislike调用，通过type来分别类型
+    const AddlikeOrdislike = async(adddata)=>{//箭头函数
+        console.log(adddata,"ADDdata");
+        let result = await reqAddLikeOrDislike(adddata)
+        console.log(result,"ADDresult");
+        const {status} = result
+        if(status === 0){
+            message.success("谢谢您宝贵的建议")
+        }else{
+            message.warn("糟糕，请求失败了")
+        }
+    }
+    //减少like或者dislike调用，通过type来分别类型
+    const ReducelikeOrdislike = async(data)=>{//箭头函数
+        let result = await reqReduceLikeOrDislike(data)
+        const {status} = result
+        if(status === 0){
+            message.success("谢谢您宝贵的建议")
+        }else{
+            message.warn("糟糕，请求失败了")
+        }
+  }
+  //获取设备图标
     const getimgurl=(data)=>{
         //设备及系统
         let re1 = /Windows/g  
@@ -106,26 +136,59 @@ const CommentUI = (props)=>{
         setvisible(true)
     }
     const handleOk = ()=>{//箭头函数
-        if(twocomment){
-            console.log(commentinfo,rid,"VVVVV",id);
-            postdata({...commentinfo,id,rid})
-        }else{
-            console.log(commentinfo,id);
-            postdata({...commentinfo,id,rid:null})
-        }
-       
+        
+        if(commentinfo.name.length===0){
+            return message.warning('笔名不可为空')
+         }
+         if(!isEmail(commentinfo.email)){
+            return message.warning('请输入正确的邮箱格式')
+         }
+         if(commentinfo.content.length===0){
+             return message.warning('内容不可为空')
+         }
+         else{
+            if(twocomment){
+                console.log(commentinfo,rid,"VVVVV");
+                postdata({...commentinfo,rid})
+            }else{
+                console.log(commentinfo,id);
+                postdata({...commentinfo,rid:id})
+            }
+         }
         setvisible(false)
     }
     const handleCancel =()=>{//箭头函数
         setvisible(false)
           console.log("cancle");
     }
-    const postdata = (data)=>{//箭头函数
+    const isEmail=(str)=>{
+    const re=/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (re.test(str) !== true) {
+        return false;
+      }else{
+        return true;
+      }
+    }
+    const postdata = async (data)=>{//箭头函数
         let BrowserInfo = getBrowserInfo()[0].split("/")
         const browserType = BrowserInfo[0].charAt(0).toUpperCase() + BrowserInfo[0].slice(1)
         const version = BrowserInfo[1]
+        const equipment = browserType+"("+version+")"
+        const location = window.city
         console.log(browserType,version);
         console.log(data);
+        console.log(uuidv4());
+        console.log(window.device);
+        const replydata = {...data,id:uuidv4(),device:window.device,like:"0",dislike:"0",equipment,location}
+        console.log(replydata);
+        let result = await reqSaveComment(replydata)
+        const {status} = result
+        if(status === 0){
+            message.success("谢谢您宝贵的评论，您的评论再审核后方可展示",3)
+        }else{
+            message.warn("评论失败请稍后重试",2)
+        }
+        
     }
     const actions = [
         <span className="comment-basic-like">
@@ -160,7 +223,7 @@ const CommentUI = (props)=>{
                     actions={actions}
                     author={<a href="/#">{name}</a>}
                     datetime={<div><span style={{marginRight:"10px"}}>{createdtime}</span><span>{location}</span></div>}
-                    avatar={<Avatar style={{height:"32px",width:"32px"}} src={`${BASE_URL}/upload/${img}`} alt={`${name}`} />}
+                    avatar={<Avatar style={{height:"100%",width:"100%"}} src={`http://q4.qlogo.cn/g?b=qq&nk=${email}&s=3`} alt={`${name}`} />}
                     content={
                       <p style={{marginTop:"10px",marginBottom:"15px"}}>
                       {content}
@@ -174,10 +237,10 @@ const CommentUI = (props)=>{
                     onOk={handleOk}
                     onCancel={handleCancel}
                     footer={[
-                        <Button key="back" style={{height:"25px"}}  onClick={handleCancel}>
+                        <Button key="back" style={{height:"25px",margin:"10px"}}  onClick={handleCancel}>
                             返回
                         </Button>,
-                        <Button key="submit" type="primary" style={{height:"25px"}}  onClick={handleOk}>
+                        <Button key="submit" type="primary" style={{height:"25px",margin:"10px"}}  onClick={handleOk}>
                             提交评论
                         </Button>,
                     ]}
@@ -186,11 +249,13 @@ const CommentUI = (props)=>{
                     <Input  placeholder="输入您的笔名" style={{height:"33px", marginBottom: '10px' }} 
                            onChange={(e) => {setcommentinfo({...commentinfo,name:e.target.value})}} />
                    
-                   <div style={{position:'relative'}}>
-                                <Input placeholder="请输入邮箱"  style={{height:"33px", marginBottom: '10px',}} onChange={(e) => { setcommentinfo({...commentinfo,email:e.target.value})}}/>
-                                {/* http://q4.qlogo.cn/g?b=qq&nk=2267225243@qq.com&s=3 通过qq邮箱获取qq头像*/}
-                            </div>
-                    <TextArea rows={4} placeholder="输入您的留言" onChange={(e) => { setcommentinfo({...commentinfo,content:e.target.value})}} />
+                   <div style={{ display:"flex",justifyContent:"space-around",width:"56%"}}>
+                <Input  placeholder="请输入QQ邮箱邮箱"style={{ marginBottom:"20px",height:"33px",opacity:"0.7",color:"black" }} onChange={(e) => { setcommentinfo({...commentinfo,email:e.target.value})} }/>
+                    <span>
+                        <Avatar  size={45} src={isEmail(commentinfo.email) ? "https://q4.qlogo.cn/g?b=qq&nk=" + commentinfo.email + "&s=3" : ""} />
+                            </span>
+                     </div>
+                    <TextArea showCount rows={4} placeholder="输入您的留言" onChange={(e) => { setcommentinfo({...commentinfo,content:e.target.value})}} />
 
 
                 </Modal>

@@ -8,9 +8,15 @@ import menuList from '../../../config/menu_config'
 const { SubMenu } = Menu;
 const Header = ()=>{//箭头函数
     const [current, setcurent] = React.useState('');
+    
     const handleClick = e => {
-        console.log('click ', e);
         setcurent({current:e.key})
+        //判断路径，如果为互动路由，切换路由时停止播放音乐
+        // if(e.key !== "interactive"){
+        //   window.player.pause()
+        // }
+        
+        
       };
       const menus = ['admin','actualcombat','life','record','interactive','about','more','bar','line','pie']
     const hasAuth = (item)=>{//箭头函数
@@ -32,16 +38,14 @@ const Header = ()=>{//箭头函数
                   <span>{
                     React.createElement(
                       Icon[item.icon],
-                      {
-                        style:{ fontSize: '16px' }
-                      }
+                      
                     )
                   }</span>
                   <Link to={item.path}>{item.title}</Link>
                 </Menu.Item>
                 )}else{
                   return(
-      <SubMenu key={item.key} icon={React.createElement(Icon[item.icon],{style:{ fontSize: '16px' }})} title={<span>{item.title}</span>}>
+      <SubMenu key={item.key} icon={React.createElement(Icon[item.icon],{})} title={<span>{item.title}</span>}>
         {
           createMenu(item.children)
         }
@@ -56,7 +60,7 @@ const Header = ()=>{//箭头函数
         }))
           }
       return(
-          <div className='headerall'>
+          <div id="scrolldisplay" className='headerall'>
               <div className='headerleft'>
                   <img src={logo} alt=""/>
                   <span>Hello</span></div>

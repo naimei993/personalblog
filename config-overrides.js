@@ -33,7 +33,7 @@ const rewirePostcss = require("react-app-rewire-postcss");
           }),
           require("postcss-px2rem-exclude")({
             // 设计稿宽度/10
-            remUnit: 1210 / 10,
+            remUnit: 160,
             exclude: /node-modules/i,
           }),
         ],

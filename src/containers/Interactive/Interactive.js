@@ -1,18 +1,21 @@
-import {Row,Col,message} from 'antd'
+import {Row,Col,message, Input,Button,Avatar,Divider} from 'antd'
 import React from 'react'
 import ReactAplayer from 'react-aplayer';
+import { v4 as uuidv4 } from 'uuid';
 import {BASE_URL} from '../../config/index'
 import Rightdetail from '../Admin/Rightdetail/Rightdetail'
-import {reqGetComment} from '../../api/index'
+import {reqGetComment,reqSaveComment} from '../../api/index'
 import CommentUI  from './comment/comment';
 import './Interactive.min.css'
 
+const { TextArea } = Input;
+
 
 const Interactive = ()=>{//箭头函数
-    
-    
     // const [action,setaction] = React.useState(null)
     const [ComInformation,setComInformation] = React.useState([])
+    const[makecomment,setmakecomment] = React.useState({name:"",email:"",content:""})
+    
     React.useEffect(()=>{
         const getComment = async ()=>{
             let result = await reqGetComment()
@@ -88,65 +91,77 @@ const Interactive = ()=>{//箭头函数
             },
         ],
     };
-    const pinglundata = ComInformation.filter((item) => { return !item.rid })
-    const pinglunindata = (ComInformation.filter((item) => { return item.rid })).reverse()
-    console.log(pinglundata,"AAAAAAAAAAAAAAAAAA");
-    console.log(pinglunindata,"BBBBBBBBBBBBBBBBBBBB");
-     // event binding example
+    const pinglundata = (ComInformation.filter((item) => { return !item.rid })).reverse()//一级评论内容
+    const pinglunindata = (ComInformation.filter((item) => { return item.rid })).reverse()//二级评论内容
+    //以下是 react-aplayer调用的三个函数，播放，暂停，初始化
     const onPlay = () => {
         // console.log('on play');
     };
    const onPause = () => {
         // console.log('on pause');
     };
-    // example of access aplayer instance
-    let aap;
     const onInit = ap => {
-        console.log("on Init");
-         aap = ap;
-         console.log(aap);
-
+        window.player = ap;
      };
-     console.log(aap);
+
      
-    
-  
-//    const like = () => {
-//        console.log("LIKE");
 //        console.log(window.device);
 //         console.log(window.city,"CITY",window.ip,"IP"); 
 //         console.log(window.device);
-       
-//         // if (this.state.condition === 0) {
-//         //     let a = parseInt(this.state.likes) + 1
-//         //     this.setState({
-//         //         likes: a,
-//         //         // dislikes: 0,
-//         //         action: 'liked',
-//         //         condition:1
-//         //     }, () => {
-//         //         this.likesordislikes()
-//         //     });
-            
-//         // }
-
-//     };
-//     const dislike = () => {
-//         console.log("DISLIKE");
-//          // if (this.state.condition === 0) {
-//          //     let a = parseInt(this.state.likes) + 1
-//          //     this.setState({
-//          //         likes: a,
-//          //         // dislikes: 0,
-//          //         action: 'liked',
-//          //         condition:1
-//          //     }, () => {
-//          //         this.likesordislikes()
-//          //     });
-             
-//          // }
- 
-//      };
+    const isEmail=(str)=>{
+        const re=/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+        if (re.test(str) !== true) {
+          return false;
+        }else{
+          return true;
+        }
+    }
+    const getBrowserInfo = ()=> {
+        const agent = navigator.userAgent.toLowerCase();
+        const regStr_ie = /msie [\d.]+;/gi;
+        const regStr_ff = /firefox\/[\d.]+/gi
+        const regStr_chrome = /chrome\/[\d.]+/gi;
+        const regStr_saf = /safari\/[\d.]+/gi;
+        //IE
+        if(agent.indexOf("msie") > 0) {
+            return agent.match(regStr_ie);
+        }
+    
+        //firefox
+        if(agent.indexOf("firefox") > 0) {
+            return agent.match(regStr_ff);
+        }
+    
+        //Chrome
+        if(agent.indexOf("chrome") > 0) {
+            return agent.match(regStr_chrome);
+        }
+    
+        //Safari
+        if(agent.indexOf("safari") > 0 && agent.indexOf("chrome") < 0) {
+            return agent.match(regStr_saf);
+        }
+    
+    }
+    let BrowserInfo = getBrowserInfo()[0].split("/")
+    const browserType = BrowserInfo[0].charAt(0).toUpperCase() + BrowserInfo[0].slice(1)
+    const version = BrowserInfo[1]
+    const equipment = browserType+"("+version+")"
+    const getCommentinfo = ()=>{//箭头函数
+        console.log(makecomment);
+        const replydata = {...makecomment,id:uuidv4(),location:window.city,ip:window.ip,device:window.device,equipment:equipment,rid:null}  
+        postCommentinfo(replydata)
+    }
+    const postCommentinfo = async (replydata)=>{//箭头函数
+    console.log(replydata);
+      let result = await reqSaveComment(replydata)
+      const {status} = result
+      if(status === 0){
+        message.success("谢谢您宝贵的评论，您的评论在审核后方可展示",3)
+    }else{
+        message.warn("评论失败请稍后重试",2)
+    }
+    }
     return(
         <Row className='comm-main' type='flex' justify='center'>
         <Col className='comma-left' xs={24} sm={24} md={16} lg={18} xl={14} >
@@ -157,37 +172,53 @@ const Interactive = ()=>{//箭头函数
           onPlay={onPlay}
           onPause={onPause}
         />
+        <Divider style={{marginTop:"40px"}}>欢迎您的评论</Divider>
+        <div className="comment-top" >
+        <Input placeholder="输入您的笔名" style={{ marginBottom:"20px",width:"56%",height:"33px",opacity:"0.7" }}onChange={(e) => { setmakecomment({...makecomment,name:e.target.value})  }} />
+        <div style={{ position: 'relative',display:"flex",justifyContent:"space-around",width:"56%"}}>
+                <Input  placeholder="请输入QQ邮箱邮箱"style={{ marginBottom:"20px",height:"33px",opacity:"0.7",color:"black" }} onChange={(e) => { setmakecomment({...makecomment,email:e.target.value})} }/>
+                    <span>
+                        <Avatar style={{marginTop:"-10px"}} size={45} src={isEmail(makecomment.email) ? "https://q4.qlogo.cn/g?b=qq&nk=" + makecomment.email + "&s=3" : ""} />
+                            </span>
+                     </div>
+        <TextArea style={{ marginBottom:"20px",width:"56%",opacity:"0.7" }} rows={4} placeholder="输入您的留言" onChange={(e) => { setmakecomment({...makecomment,content:e.target.value}) }} />
+        <Button type="primary" style={{width:"56%",height:"30px"}} onClick={()=>{getCommentinfo()}}>欢迎您的评论</Button>
+        </div>
+        <Divider style={{marginBottom:"40px"}}>您的评论在审核后方可展示</Divider>
          {
           
          pinglundata.length ? pinglundata.map((item) => {
+                if(item.isshow === "true"){
                     return(
-                        <CommentUI key={item.id} data={item} like={item.like} dislike={item.dislike} device={item.device} equipment={item.equipment}
+                        <CommentUI key={item.id} data={item} 
                 
               >   
               {
                  
               pinglunindata.length ? pinglunindata.map((itemin) => {
+                if(itemin.isshow === "true"){
                     if(item.id === itemin.rid){
-                        
                         return(<CommentUI 
                             id={item.id}
                             twocomment={true}
                             key={itemin.id} 
                             data={itemin} 
-                            like={itemin.like} 
-                            dislike={itemin.dislike} 
-                            device={itemin.device} 
-                            equipment={itemin.equipment}
                         >  </CommentUI>)
                     }else{
                         return null
                     }
-                  
+                }else{
+                    return null
+                }
                 
 
               }):null}
               </CommentUI>
                 )
+                }else{
+                    return null
+                }
+                    
         }) :null
     }
         </Col>

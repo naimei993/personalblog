@@ -14,6 +14,14 @@ export const reqActualCombat = () => ajax.get(`${BASE_URL}/actualCombat`)
 export const reqGenerateShortUrl = (url) => ajax.post(`${BASE_URL}/s`,{url})
 
 export const reqGetComment = ()=>ajax.get(`${BASE_URL}/getcomment`)
+
+export const reqSaveComment = (replydata) => ajax.post(`${BASE_URL}/savecomment`,replydata)
+
+export const reqAddLikeOrDislike = (adddata) => ajax.post(`${BASE_URL}/addlikeordislike`,adddata)
+
+export const reqReduceLikeOrDislike = (reduce) => ajax.post(`${BASE_URL}/reducelikeordislike`,reduce)
+
+export const reqBlogContent = (makedid)=>ajax.get(`${BASE_URL}/upload/${makedid}.md`)
 // export const reqWheather = ()=>{
 //   return new Promise((resolve,reject)=>{
 //       jsonp(`http://wthrcdn.etouch.cn/weather_mini?city=${CITY}`,(err,data)=>{
